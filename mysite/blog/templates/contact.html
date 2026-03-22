@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="post">
+    <h1>Contact Us</h1>
+    <p>If you have any questions, suggestions, or feedback, feel free to reach out.</p>
+
+     <p><strong>Email:</strong>
+        <a href="salesmadutech@gmail.com"> salesmadutech@gmail.com</a></p>
+     <p><strong>Telephone No.:</strong> 08154792701</p>
+
+    <p>You can also connect with us through our blog for more health tips and updates.</p>
+
+    
+</div>
+
+<hr>
+
+<h2>Send Us a Message</h2>
+
+{% if success %}
+<p style="color:green;">Message sent successfully!</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="name" placeholder="Your Name" required><br><br>
+
+    <input type="email" name="email" placeholder="Your Email" required><br><br>
+
+    <textarea name="message" placeholder="Your Message" required></textarea><br><br>
+
+    <button type="submit">Send Message</button>
+</form>
+
+{% endblock %}
