@@ -14,14 +14,23 @@
     {% csrf_token %}
 
     <label>Username:</label><br>
-    {{ form.username }}<br><br>
+    <input type="text" name="username"><br><br>
 
     <label>Password:</label><br>
-    {{ form.password1 }}<br><br>
+    <input type="password" id="password1" name="password1"><br><br>
 
     <label>Confirm Password:</label><br>
-    {{ form.password2 }}<br><br>
+    <input type="password" id="password2" name="password2"><br><br>
 
+    <input type="checkbox" onclick="togglePassword()"> Show Password
+
+    <!-- ✅ MOVE RULES HERE -->
+    <div id="password-rules" style="font-size:14px; margin-top:10px;">
+        <p id="length" style="color:red;">❌ At least 8 characters</p>
+        <p id="match" style="color:red;">❌ Passwords match</p>
+    </div>
+
+    <br>
     <button type="submit">Sign Up</button>
 </form>
 
@@ -29,5 +38,51 @@
     Already have an account?
     <a href="{% url 'login' %}">Login here</a>
 </p>
+
+<script>
+// Show / Hide password
+function togglePassword() {
+    let p1 = document.getElementById("password1");
+    let p2 = document.getElementById("password2");
+
+    if (p1.type === "password") {
+        p1.type = "text";
+        p2.type = "text";
+    } else {
+        p1.type = "password";
+        p2.type = "password";
+    }
+}
+
+// Live validation
+let password1 = document.getElementById("password1");
+let password2 = document.getElementById("password2");
+
+password1.addEventListener("keyup", validate);
+password2.addEventListener("keyup", validate);
+
+function validate() {
+    let val1 = password1.value;
+    let val2 = password2.value;
+
+    // Length check
+    if (val1.length >= 8) {
+        document.getElementById("length").innerHTML = "✅ At least 8 characters";
+        document.getElementById("length").style.color = "green";
+    } else {
+        document.getElementById("length").innerHTML = "❌ At least 8 characters";
+        document.getElementById("length").style.color = "red";
+    }
+
+    // Match check
+    if (val1 && val1 === val2) {
+        document.getElementById("match").innerHTML = "✅ Passwords match";
+        document.getElementById("match").style.color = "green";
+    } else {
+        document.getElementById("match").innerHTML = "❌ Passwords match";
+        document.getElementById("match").style.color = "red";
+    }
+}
+</script>
 
 {% endblock %}
