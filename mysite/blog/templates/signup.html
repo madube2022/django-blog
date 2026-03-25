@@ -13,8 +13,13 @@
 <form method="POST">
     {% csrf_token %}
 
+    
+
     <label>Username:</label><br>
     <input type="text" name="username"><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email"><br><br>
 
     <label>Password:</label><br>
     <input type="password" id="password1" name="password1"><br><br>
@@ -67,8 +72,7 @@ function validate() {
 
     // Length check
     if (val1.length >= 8) {
-        document.getElementById("length").innerHTML = "✅ At least 8 characters";
-        document.getElementById("length").style.color = "green";
+        document.getElementById("length").style.display = "none";       document.getElementById("length").style.color = "green";
     } else {
         document.getElementById("length").innerHTML = "❌ At least 8 characters";
         document.getElementById("length").style.color = "red";
@@ -76,7 +80,7 @@ function validate() {
 
     // Match check
     if (val1 && val1 === val2) {
-        document.getElementById("match").innerHTML = "✅ Passwords match";
+        document.getElementById("match").style.display = "none";
         document.getElementById("match").style.color = "green";
     } else {
         document.getElementById("match").innerHTML = "❌ Passwords match";

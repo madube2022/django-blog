@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect, get_object_or_404, redirect
 from .models import Post, Comment
 from .models import Contact
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, login
+from django.core.mail import send_mail
 
 
 def home(request):
@@ -58,10 +59,25 @@ def contact(request):
 def signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
+        email = request.POST.get("email")
+
         if form.is_valid():
-            form.save()
-            return redirect("login")
+            user = form.save(commit=False)  # don't save yet
+            user.email = email              # add email
+            user.save() 
+            
+            login(request, user)
+
+            send_mail('Welcome to My Health Blog',
+                'Your account was created successfully!',
+                'your_email@gmail.com',   # change this
+                [email],
+                fail_silently=True,
+            )
+            
+            return redirect("home")
     
     else:
         form = UserCreationForm()
     return render(request, "signup.html", {"form": form})
+
